@@ -1,0 +1,134 @@
+@media screen and (max-width: 600px) {
+  .jumbotron {
+      padding: 50px 50px
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .jumbotron {
+      padding: 100px 100px
+  }
+
+  .jumbotron h1 {
+      font-size: 24px;
+  }
+}
+
+
+@media screen and (min-width: 650px) {
+  .app-bar {
+      grid-template-columns: 1fr auto;
+      padding: 8px 32px;
+  }
+ 
+  .app-bar .app-bar__brand h1 {
+      font-size: 1.5em;
+  }
+ 
+  .app-bar .app-bar__menu {
+      display: none;
+  }
+ 
+  .app-bar .app-bar__navigation {
+      position: static;
+      width: 100%;
+  }
+ 
+  .app-bar .app-bar__navigation ul li {
+      display: inline-block;
+  }
+ 
+  .app-bar .app-bar__navigation ul li a {
+      display: inline-block;
+      width: 120px;
+      text-align: center;
+      margin: 0;
+  }
+ 
+  .restos {
+      grid-template-columns: 1fr 1fr;
+  }
+ 
+  .resto .resto__title {
+      grid-column-start: 1;
+      grid-column-end: 3;
+  }
+ 
+  .resto .resto__overview {
+      grid-column-start: 1;
+      grid-column-end: 3;
+  }
+}
+ 
+@media screen and (min-width: 800px) {
+  .app-bar .app-bar__brand h1 {
+      font-size: 2em;
+  }
+}
+ 
+@media screen and (min-width: 850px) {
+  .restos {
+      grid-template-columns: repeat(3, 1fr);
+  }
+}
+ 
+@media screen and (min-width: 1200px) {
+  .restos {
+      grid-template-columns: repeat(4, 1fr);
+  }
+}
+ 
+@media screen and (min-width: 1600px) {
+  .restos {
+      grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .app-bar .app-bar__navigation {
+    background-color: #982121;
+  }
+
+  .app-bar .app-bar__navigation ul li a {
+    display: inline-block;
+    min-width: 50px;
+    min-height: 50px;
+    color: white;
+  }
+
+  .app-bar .app-bar__navigation ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  footer {
+    padding: 3em 0em 1em;
+  }
+
+  footer p a {
+    display: inline-block;
+    min-width: 50px;
+    min-height: 50px;
+  }
+}
+
+/* 
+
+Detail Resto
+
+*/
+
+@media screen and (max-width: 650px) {
+  .detail__resto {
+    grid-template-columns: 1fr;
+  }
+
+  .content .content__heading {
+    font-size: 23px;
+  }
+
+  .content .content__subheading {
+    font-size: 16px;
+  }
+}

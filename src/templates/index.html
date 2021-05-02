@@ -3,24 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#982121"/>
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="description" content="Daftar Restoran untuk Developer">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.png">
+    <script src="https://use.fontawesome.com/b070c8f1df.js"></script>
     <title>CODE RESTO</title>
 </head>
 <body>
 <a href="#maincontent" class="skip-link">Menuju list menu makanan</a>
-    
-<app-bar></app-bar>
-<hero-banner></hero-banner>
 
-<main id="maincontent" aria-label="daftar makanan">
+  <header class="app-bar">
+    <div class="app-bar__menu">
+      <button id="hamburgerButton">☰</button>
+    </div>
+    <div class="app-bar__brand">
+      <h1>Code Resto</h1>
+    </div>
+    <nav id="navigationDrawer" class="app-bar__navigation">
+      <ul>
+        <li><a href="#/daftar-restoran">Restoran</a></li>
+        <li><a href="#/restoran-favorit">Favorit</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<div class="heading-list">
-    <h1>Explore Restaurant</h1>
-    <p class="sub-heading">Find your favorite Resto</p>
-</div>
+  <div class="jumbotron">
+    <h1>Tempat makan untuk para Developer</h1>
+      <p>Code Resto jadi solusi bagi anda yang lapar saat sedang coding sehari suntuk. Selain terdapat rasa yang lezat, anda juga dapat ide cemerlang disini. Tunggu apa lagi? Buruan klik link dibawah ini!</p>
+      <button tabindex="1" onclick="window.open('https://github.com/tarunawahyudi', '_blank')" id="pesan">Pesan</a>
+  </div>
 
-<card-list></card-list>
-</main>
-
-<footer-bar></footer-bar>
+  <main id="mainContent"></main>
+  <footer>
+    <p>Made with love <a href="#" target="_blank" rel="noreferrer">Taruna Wahyudi</a></p>
+  </footer>
 </body>
 </html>
