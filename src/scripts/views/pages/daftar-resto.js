@@ -17,8 +17,8 @@ const DaftarRestoran = {
   async afterRender() {
     const restos = await RestoranSource.daftarRestoran();
     const restosContainer = document.querySelector('#restos');
-    restos.forEach((resto) => {
-      restosContainer.innerHTML += createRestoItemTemplate(resto);
+    restos.forEach((resto, index) => {
+      restosContainer.innerHTML += createRestoItemTemplate(resto, index);
     });
   },
 };

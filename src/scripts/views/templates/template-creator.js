@@ -21,7 +21,7 @@ const createRestoDetailTemplate = (resto) => `
       </ul>
     </div>
     <div>
-      <img class="resto__poster" src="${CONFIG.BASE_IMAGE_URL}large/${resto.pictureId}" alt="${resto.name}" />
+      <img class="resto__poster" src="${CONFIG.BASE_IMAGE_URL}large/${resto.pictureId}" alt="${resto.name}" crossorigin="anonymous" />
       <p>Rating ⭐️<span class="resto-item__header__rating__score">${resto.rating}</span></p>
       <div class="customer__reviews">
         <h3>Customer Reviews</h3>
@@ -33,16 +33,16 @@ const createRestoDetailTemplate = (resto) => `
   </div>
   `;
 
-const createRestoItemTemplate = (resto) => `
+const createRestoItemTemplate = (resto, index) => `
   <div class="resto-item">
     <div class="resto-item__header">
-        <img src="${CONFIG.BASE_IMAGE_URL}small/${resto.pictureId}" alt="${resto.name}">
+        <img src="${CONFIG.BASE_IMAGE_URL}small/${resto.pictureId}" alt="${resto.name}" crossorigin="anonymous">
         <div class="resto-item__header__rating">
             <p>⭐️<span class="resto-item__header__rating__score">${resto.rating}</span></p>
         </div>
     </div>
     <div class="resto-item__content">
-        <h3><a href="${`/#/detail/${resto.id}`}">${resto.name}</a></h3>
+        <h3><a ${index === 0 ? 'id="firstItem"' : ''} href="${`/#/detail/${resto.id}`}">${resto.name}</a></h3>
         <h4>📍 ${resto.city}</h4>
         <p>${resto.description}</p>
     </div>

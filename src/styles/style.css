@@ -12,6 +12,10 @@
     box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     padding: 0;
@@ -22,17 +26,20 @@ body {
 
 .skip-link {
     position: absolute;
-    top: -40px;
+    top: -50px;
     left: 0;
     background-color: var(--secondary);
     color: white;
     padding: 8px;
     z-index: 100;
     text-decoration: none;
+    transform: translateY(-100%);
+    transition: transform 0.3s;
  }
 
  .skip-link:focus {
     top: 0;
+    transform: translateY(0%);
  }
 
 footer {
@@ -99,29 +106,22 @@ footer p a {
   margin-bottom: 2em;
 }
 
-.jumbotron button#pesan {
-  display: block;
+.jumbotron a {
   text-align: center;
-  width: 150px;
-  margin: 0px auto;
-  padding: 20px;
+  display: table;
   color: white;
-  text-transform: uppercase;
-  border: 1px solid #fff;
   text-decoration: none;
+  border: 1px solid white;
+  margin: auto;
+  padding: 12px 50px;
   border-radius: 10px;
+  min-width: 50px;
+  min-height: 50px;
 }
 
-.jumbotron button {
-    cursor: pointer;
-    background: none;
-    color: white;
-    text-decoration: none;
-}
-
-.jumbotron button:hover {
-    background-color: var(--primary);
-    transition: 0.5s;
+.jumbotron a:hover {
+  transition: 0.3s;
+  background-color: var(--primary);
 }
 
 /*
