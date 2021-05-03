@@ -36,7 +36,7 @@ const createRestoDetailTemplate = (resto) => `
 const createRestoItemTemplate = (resto) => `
   <div class="resto-item">
     <div class="resto-item__header">
-        <img src="${CONFIG.BASE_IMAGE_URL}small/${resto.pictureId}">
+        <img src="${CONFIG.BASE_IMAGE_URL}small/${resto.pictureId}" alt="${resto.name}">
         <div class="resto-item__header__rating">
             <p>⭐️<span class="resto-item__header__rating__score">${resto.rating}</span></p>
         </div>

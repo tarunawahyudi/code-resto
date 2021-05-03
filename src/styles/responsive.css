@@ -40,6 +40,8 @@
  
   .app-bar .app-bar__navigation ul li a {
       display: inline-block;
+      min-width: 50px;
+      min-height: 50px;
       width: 120px;
       text-align: center;
       margin: 0;
@@ -103,7 +105,11 @@
   }
 
   footer {
-    padding: 3em 0em 1em;
+    padding: 2em 0em 0em;
+  }
+
+  footer p {
+    margin-top: 0;
   }
 
   footer p a {
