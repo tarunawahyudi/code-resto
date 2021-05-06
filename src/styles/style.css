@@ -110,8 +110,9 @@ footer p a {
   text-align: center;
   display: table;
   color: white;
+  font-weight: 600;
   text-decoration: none;
-  border: 1px solid white;
+  border: 2px solid white;
   margin: auto;
   padding: 12px 50px;
   border-radius: 10px;
@@ -137,7 +138,7 @@ footer p a {
   position: sticky;
   top: 0;
   z-index: 99;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
  
 .app-bar .app-bar__menu {
@@ -286,6 +287,7 @@ main {
   margin: 10px 0px;
   border-radius: 10px;
   display: inline-block;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
  
 .resto-item .resto-item__content h3 a {
