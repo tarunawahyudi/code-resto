@@ -46,41 +46,6 @@ describe('Searching restos', () => {
         .toHaveBeenCalledWith('resto a');
     });
   
-    it('should show the found restos', () => {
-      presenter._showFoundRestos([{ id: 1 }]);
-      expect(document.querySelectorAll('.resto').length).toEqual(1);
-  
-      presenter._showFoundRestos(
-        [{ id: 1, name: 'Satu' }, { id: 2, name: 'Dua' }]
-      );
-  
-      expect(document.querySelectorAll('.resto').length).toEqual(2);
-    });
-  
-    it('should show the name of the found restos', () => {
-      presenter._showFoundRestos([{
-        id: 1,
-        name: 'Satu',
-      }]);
-      expect(document.querySelectorAll('.resto__name').item(0).textContent)
-        .toEqual('Satu');
-      
-      presenter._showFoundRestos(
-        [{ id: 1, name: 'Satu' }, { id: 2, name: 'Dua'}],
-      );
-  
-      const restoNames = document.querySelectorAll('.resto__name');
-      expect(restoNames.item(0).textContent).toEqual('Satu');
-      expect(restoNames.item(1).textContent).toEqual('Dua');
-    });
-  
-    it('should show - for found resto without name', () => {
-      presenter._showFoundRestos([{ id: 1 }]);
-  
-      expect(document.querySelectorAll('.resto__name').item(0).textContent)
-        .toEqual('-');
-    });
-  
     it('should show the restos found by Favorite Restos', (done) => {
       document.getElementById('resto-search-container')
         .addEventListener('restos:searched:updated', () => {
@@ -113,6 +78,21 @@ describe('Searching restos', () => {
         { id: 333, name: 'ini juga boleh resto a' },
       ]);
   
+      searchRestos('resto a');
+    });
+
+    it('should show - when the resto returned does not contain a name', (done) => {
+      document.getElementById('resto-search-container').addEventListener('restos:searched:updated', () => {
+        const restoNames = document.querySelectorAll('.resto__name');
+        expect(restoNames.item(0).textContent).toEqual('-');
+
+        done();
+      });
+
+      favoriteRestos.searchRestos.withArgs('resto a').and.returnValues([
+        { id: 444 },
+      ]);
+
       searchRestos('resto a');
     });
   });

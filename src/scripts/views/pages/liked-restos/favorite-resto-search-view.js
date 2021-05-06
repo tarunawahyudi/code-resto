@@ -1,3 +1,5 @@
+import { createRestoItemTemplate } from '../../templates/template-creator';
+
 class FavoriteRestoSearchView {
   getTemplate() {
     return `
@@ -10,6 +12,17 @@ class FavoriteRestoSearchView {
         </div>
         `;
   };
+
+  getFavoriteRestoTemplate() {
+    return `
+      <div class="content">
+        <h2 class="content__heading">Your Liked Restaurant</h2>
+        <div id="restos" class="restos">
+
+        </div>
+      </div>
+    `;
+  }
 
   runWhenUserIsSearching(callback) {
     document.getElementById('query').addEventListener('change', (event) => {
@@ -33,6 +46,19 @@ class FavoriteRestoSearchView {
 
     document.getElementById('resto-search-container')
       .dispatchEvent(new Event('restos:searched:updated'));
+  }
+
+  showFavoriteRestos(restos = []) {
+
+    let html;
+    if (restos.length) {
+      html = restos.reduce((carry, resto) => carry.concat(createRestoItemTemplate(resto)), '');
+    } else {
+      html = '<div class="resto-item__not__found"></div>';
+    }
+
+    document.getElementById('restos').innerHTML = html;
+    document.getElementById('restos').dispatchEvent(new Event('restos:updated'));
   }
 }
 
