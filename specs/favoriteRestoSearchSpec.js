@@ -74,12 +74,47 @@ describe('Searching restos', () => {
     const restoNames = document.querySelectorAll('.resto__name');
     expect(restoNames.item(0).textContent).toEqual('Satu');
     expect(restoNames.item(1).textContent).toEqual('Dua');
-  })
+  });
 
   it('should show - for found resto without name', () => {
     presenter._showFoundRestos([{ id: 1 }]);
 
     expect(document.querySelectorAll('.resto__name').item(0).textContent)
       .toEqual('-');
-  })
+  });
+
+  it('should show the restos found by Favorite Restos', (done) => {
+    document.getElementById('resto-search-container')
+      .addEventListener('restos:searched:updated', () => {
+        expect(document.querySelectorAll('.resto').length).toEqual(3);
+        done();
+      });
+
+    FavoriteRestoIdb.searchRestos.withArgs('resto a').and.returnValues([
+      { id: 111, name: 'resto abc' },
+      { id: 222, name: 'ada juga resto abcde' },
+      { id: 333, name: 'ini juga boleh resto a' },
+    ]);
+
+    searchRestos('resto a');
+  });
+
+  it('should show the name of the restos found by Favorite Restos', (done) => {
+    document.getElementById('resto-search-container').addEventListener('restos:searched:updated', () => {
+      const restoNames = document.querySelectorAll('.resto__name');
+      expect(restoNames.item(0).textContent).toEqual('resto abc');
+      expect(restoNames.item(1).textContent).toEqual('ada juga resto abcde');
+      expect(restoNames.item(2).textContent).toEqual('ini juga boleh resto a');
+
+      done();
+    });
+
+    FavoriteRestoIdb.searchRestos.withArgs('resto a').and.returnValues([
+      { id: 111, name: 'resto abc' },
+      { id: 222, name: 'ada juga resto abcde' },
+      { id: 333, name: 'ini juga boleh resto a' },
+    ]);
+
+    searchRestos('resto a');
+  });
 });
