@@ -4,6 +4,7 @@ import FavoriteRestoIdb from '../src/scripts/data/favoritresto-idb';
 describe('Searching restos', () => {
 
   let presenter;
+  let favoriteRestos;
 
   const searchRestos = (query) => {
     const queryElement = document.getElementById('query');
@@ -24,9 +25,9 @@ describe('Searching restos', () => {
   }
 
   const constructPresenter = () => {
-    spyOn(FavoriteRestoIdb, 'searchRestos');
+    favoriteRestos = spyOnAllFunctions(FavoriteRestoIdb);
     presenter = new FavoriteRestoSearchPresenter({ 
-      favoriteRestos: FavoriteRestoIdb 
+      favoriteRestos, 
     });
   }
 
@@ -35,86 +36,139 @@ describe('Searching restos', () => {
     constructPresenter();
   });
 
-  it('should be able to capture the query typed by the user', () => {
-    searchRestos('resto a');
-
-    expect(presenter.latestQuery).toEqual('resto a');
+  describe('When query is not empty', () => {
+    it('should be able to capture the query typed by the user', () => {
+      searchRestos('resto a');
+  
+      expect(presenter.latestQuery).toEqual('resto a');
+    });
+  
+    it('should ask the model to search for liked restos', () => {
+      searchRestos('resto a');
+  
+      expect(favoriteRestos.searchRestos)
+        .toHaveBeenCalledWith('resto a');
+    });
+  
+    it('should show the found restos', () => {
+      presenter._showFoundRestos([{ id: 1 }]);
+      expect(document.querySelectorAll('.resto').length).toEqual(1);
+  
+      presenter._showFoundRestos(
+        [{ id: 1, name: 'Satu' }, { id: 2, name: 'Dua' }]
+      );
+  
+      expect(document.querySelectorAll('.resto').length).toEqual(2);
+    });
+  
+    it('should show the name of the found restos', () => {
+      presenter._showFoundRestos([{
+        id: 1,
+        name: 'Satu',
+      }]);
+      expect(document.querySelectorAll('.resto__name').item(0).textContent)
+        .toEqual('Satu');
+      
+      presenter._showFoundRestos(
+        [{ id: 1, name: 'Satu' }, { id: 2, name: 'Dua'}],
+      );
+  
+      const restoNames = document.querySelectorAll('.resto__name');
+      expect(restoNames.item(0).textContent).toEqual('Satu');
+      expect(restoNames.item(1).textContent).toEqual('Dua');
+    });
+  
+    it('should show - for found resto without name', () => {
+      presenter._showFoundRestos([{ id: 1 }]);
+  
+      expect(document.querySelectorAll('.resto__name').item(0).textContent)
+        .toEqual('-');
+    });
+  
+    it('should show the restos found by Favorite Restos', (done) => {
+      document.getElementById('resto-search-container')
+        .addEventListener('restos:searched:updated', () => {
+          expect(document.querySelectorAll('.resto').length).toEqual(3);
+          done();
+        });
+  
+      favoriteRestos.searchRestos.withArgs('resto a').and.returnValues([
+        { id: 111, name: 'resto abc' },
+        { id: 222, name: 'ada juga resto abcde' },
+        { id: 333, name: 'ini juga boleh resto a' },
+      ]);
+  
+      searchRestos('resto a');
+    });
+  
+    it('should show the name of the restos found by Favorite Restos', (done) => {
+      document.getElementById('resto-search-container').addEventListener('restos:searched:updated', () => {
+        const restoNames = document.querySelectorAll('.resto__name');
+        expect(restoNames.item(0).textContent).toEqual('resto abc');
+        expect(restoNames.item(1).textContent).toEqual('ada juga resto abcde');
+        expect(restoNames.item(2).textContent).toEqual('ini juga boleh resto a');
+  
+        done();
+      });
+  
+      favoriteRestos.searchRestos.withArgs('resto a').and.returnValues([
+        { id: 111, name: 'resto abc' },
+        { id: 222, name: 'ada juga resto abcde' },
+        { id: 333, name: 'ini juga boleh resto a' },
+      ]);
+  
+      searchRestos('resto a');
+    });
   });
 
-  it('should ask the model to search for liked restos', () => {
-    searchRestos('resto a');
+  describe('When query is empty', () => {
+    it('should capture the query as empty', () => {
+      searchRestos(' ');
+      expect(presenter.latestQuery.length).toEqual(0);
 
-    expect(FavoriteRestoIdb.searchRestos)
-      .toHaveBeenCalledWith('resto a');
+      searchRestos('    ');
+      expect(presenter.latestQuery.length).toEqual(0);
+      
+      searchRestos('');
+      expect(presenter.latestQuery.length).toEqual(0);
+      
+      searchRestos('\t');
+      expect(presenter.latestQuery.length).toEqual(0);
+    });
+
+    it('should show all favorite restos', () => {
+      searchRestos('    ');
+
+      expect(favoriteRestos.getAllRestos)
+        .toHaveBeenCalled();
+    });
   });
 
-  it('should show the found restos', () => {
-    presenter._showFoundRestos([{ id: 1 }]);
-    expect(document.querySelectorAll('.resto').length).toEqual(1);
+  describe('When no favorite restos could be found', () => {
+    it('should show the empty message', (done) => {
+      document.getElementById('resto-search-container')
+        .addEventListener('restos:searched:updated', () => {
+          expect(document.querySelectorAll('.restos__not__found').length)
+            .toEqual(1);
+          done();
+        });
 
-    presenter._showFoundRestos(
-      [{ id: 1, name: 'Satu' }, { id: 2, name: 'Dua' }]
-    );
+        favoriteRestos.searchRestos.withArgs('resto a').and.returnValues([]);
 
-    expect(document.querySelectorAll('.resto').length).toEqual(2);
-  });
+        searchRestos('resto a');
+    });
 
-  it('should show the name of the found restos', () => {
-    presenter._showFoundRestos([{
-      id: 1,
-      name: 'Satu',
-    }]);
-    expect(document.querySelectorAll('.resto__name').item(0).textContent)
-      .toEqual('Satu');
-    
-    presenter._showFoundRestos(
-      [{ id: 1, name: 'Satu' }, { id: 2, name: 'Dua'}],
-    );
-
-    const restoNames = document.querySelectorAll('.resto__name');
-    expect(restoNames.item(0).textContent).toEqual('Satu');
-    expect(restoNames.item(1).textContent).toEqual('Dua');
-  });
-
-  it('should show - for found resto without name', () => {
-    presenter._showFoundRestos([{ id: 1 }]);
-
-    expect(document.querySelectorAll('.resto__name').item(0).textContent)
-      .toEqual('-');
-  });
-
-  it('should show the restos found by Favorite Restos', (done) => {
-    document.getElementById('resto-search-container')
-      .addEventListener('restos:searched:updated', () => {
-        expect(document.querySelectorAll('.resto').length).toEqual(3);
+    it('should not show any restaurant', (done) => {
+      document.getElementById('resto-search-container').addEventListener('restos:searched:updated', () => {
+        expect(document.querySelectorAll('.resto').length).toEqual(0);
         done();
       });
 
-    FavoriteRestoIdb.searchRestos.withArgs('resto a').and.returnValues([
-      { id: 111, name: 'resto abc' },
-      { id: 222, name: 'ada juga resto abcde' },
-      { id: 333, name: 'ini juga boleh resto a' },
-    ]);
+      favoriteRestos.searchRestos.withArgs('resto a').and.returnValues([]);
 
-    searchRestos('resto a');
+      searchRestos('resto a');
+    })
+
   });
 
-  it('should show the name of the restos found by Favorite Restos', (done) => {
-    document.getElementById('resto-search-container').addEventListener('restos:searched:updated', () => {
-      const restoNames = document.querySelectorAll('.resto__name');
-      expect(restoNames.item(0).textContent).toEqual('resto abc');
-      expect(restoNames.item(1).textContent).toEqual('ada juga resto abcde');
-      expect(restoNames.item(2).textContent).toEqual('ini juga boleh resto a');
-
-      done();
-    });
-
-    FavoriteRestoIdb.searchRestos.withArgs('resto a').and.returnValues([
-      { id: 111, name: 'resto abc' },
-      { id: 222, name: 'ada juga resto abcde' },
-      { id: 333, name: 'ini juga boleh resto a' },
-    ]);
-
-    searchRestos('resto a');
-  });
 });

@@ -30,6 +30,18 @@ const FavoriteRestoArray = {
   deleteResto(id) {
     favoriteRestos = favoriteRestos.filter((resto) => resto.id != id);
   },
+
+  searchRestos(query) {
+    return this.getAllRestos().filter((resto) => {
+      const loweredCaseRestoName = (resto.name || '-').toLowerCase();
+      const jammedRestoName = loweredCaseRestoName.replace(/\s/g, '');
+
+      const loweredCaseQuery = query.toLowerCase();
+      const jammedQuery = loweredCaseQuery.replace(/\s/g, '');
+
+      return jammedRestoName.indexOf(jammedQuery) !== -1;
+    });
+  }
 };
 
 describe('Favorite Resto Array Contract Test Implementation', () => {
